@@ -1,7 +1,7 @@
-import { notFound } from "next/navigation";
 import { Workout } from "@/lib/workouts";
 import WorkoutButtons from "@/components/WorkoutButtons";
 import client from "@/lib/client";
+import { notFound } from "next/navigation";
 
 const statRows = (workout: NonNullable<Workout>) => [
   { label: "Equipment", value: workout.equipment },
