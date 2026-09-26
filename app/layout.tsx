@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { PlanProvider } from "@/lib/workout-context";
+import { ToastContainer } from "react-toastify";
 
 const anton = Anton({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
+          <ToastContainer />
         </PlanProvider>
       </body>
     </html>

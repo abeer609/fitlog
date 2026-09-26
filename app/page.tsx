@@ -4,8 +4,6 @@ import Image from "next/image";
 import { Workout } from "@/lib/workouts";
 import client from "@/lib/client";
 
-// import HeroArt from "@/components/HeroArt";
-
 export default async function HomePage() {
   const res = await client.get<Workout[]>("/fitlog");
   const workouts = res.data;
