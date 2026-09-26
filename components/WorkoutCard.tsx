@@ -9,7 +9,7 @@ export default function WorkoutCard({ workout }: { workout: Workout }) {
       href={`/workouts/${workout.id}`}
       className="focus-ring group flex flex-col overflow-hidden rounded-2xl border border-line/70 bg-card transition-colors hover:border-lime/40"
     >
-      <div className="relative aspect-[16/11] overflow-hidden">
+      <div className="relative aspect-16/11 overflow-hidden">
         {/* <WorkoutArt slug={workout.slug} /> */}
         <img src={workout.image} alt="" />
       </div>

@@ -9,13 +9,17 @@ import {
   ReactNode,
 } from "react";
 
+export const PLAN_CAP = 5;
+
 type PlanState = {
-  plan: string[];
-  saved: string[];
-  toggleInPlan: (slug: string) => void;
-  toggleSaved: (slug: string) => void;
-  isInPlan: (slug: string) => boolean;
-  isSaved: (slug: string) => boolean;
+  plan: number[];
+  saved: number[];
+  planCap: number;
+  isPlanFull: boolean;
+  toggleInPlan: (id: number) => void;
+  toggleSaved: (id: number) => void;
+  isInPlan: (id: number) => boolean;
+  isSaved: (id: number) => boolean;
 };
 
 const PlanContext = createContext<PlanState | null>(null);
@@ -23,19 +27,19 @@ const PlanContext = createContext<PlanState | null>(null);
 const PLAN_KEY = "fitlog:plan";
 const SAVED_KEY = "fitlog:saved";
 
-function readList(key: string): string[] {
+function readList(key: string): number[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as string[]) : [];
+    return raw ? (JSON.parse(raw) as number[]) : [];
   } catch {
     return [];
   }
 }
 
 export function PlanProvider({ children }: { children: ReactNode }) {
-  const [plan, setPlan] = useState<string[]>([]);
-  const [saved, setSaved] = useState<string[]>([]);
+  const [plan, setPlan] = useState<number[]>([]);
+  const [saved, setSaved] = useState<number[]>([]);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -66,20 +70,20 @@ export function PlanProvider({ children }: { children: ReactNode }) {
     () => ({
       plan,
       saved,
-      toggleInPlan: (slug: string) =>
-        setPlan((prev) =>
-          prev.includes(slug)
-            ? prev.filter((s) => s !== slug)
-            : [...prev, slug],
-        ),
-      toggleSaved: (slug: string) =>
+      planCap: PLAN_CAP,
+      isPlanFull: plan.length >= PLAN_CAP,
+      toggleInPlan: (id: number) =>
+        setPlan((prev) => {
+          if (prev.includes(id)) return prev.filter((s) => s !== id);
+          if (prev.length >= PLAN_CAP) return prev; // cap of five lifts for today
+          return [...prev, id];
+        }),
+      toggleSaved: (id: number) =>
         setSaved((prev) =>
-          prev.includes(slug)
-            ? prev.filter((s) => s !== slug)
-            : [...prev, slug],
+          prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id],
         ),
-      isInPlan: (slug: string) => plan.includes(slug),
-      isSaved: (slug: string) => saved.includes(slug),
+      isInPlan: (id: number) => plan.includes(id),
+      isSaved: (id: number) => saved.includes(id),
     }),
     [plan, saved],
   );

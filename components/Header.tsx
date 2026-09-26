@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Dumbbell } from "lucide-react";
+import { usePlan } from "@/lib/workout-context";
 
 const navLinks = [
   { href: "/", label: "Workouts" },
@@ -11,6 +12,7 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
+  const { plan, saved } = usePlan();
 
   return (
     <header className="sticky top-0 z-30 border-b border-line/70 bg-ink/90 backdrop-blur">
@@ -46,13 +48,13 @@ export default function Header() {
           <span className="flex items-center gap-2">
             Plan
             <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-lime px-1.5 text-xs font-semibold text-ink">
-              5
+              {plan.length}
             </span>
           </span>
           <span className="flex items-center gap-2">
             Saved
             <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-white/10 px-1.5 text-xs font-semibold text-white">
-              2
+              {saved.length}
             </span>
           </span>
         </div>
