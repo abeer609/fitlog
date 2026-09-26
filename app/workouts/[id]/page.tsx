@@ -19,9 +19,17 @@ export default async function WorkoutDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const res = await client.get<Workout>(`/fitlog/${id}`);
-  const workout = res.data;
-  if (!workout) notFound();
+  let workout;
+  try {
+    const res = await client.get<Workout>(`/fitlog/${id}`);
+    workout = res.data;
+  } catch (e) {
+    console.log(e);
+  }
+
+  if (!workout) {
+    return notFound();
+  }
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-10 sm:px-10">
