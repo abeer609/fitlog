@@ -1,16 +1,13 @@
 import Link from "next/link";
-// import { workouts } from "@/lib/workouts";
 import WorkoutCard from "@/components/WorkoutCard";
 import Image from "next/image";
-import axios from "axios";
 import { Workout } from "@/lib/workouts";
+import client from "@/lib/client";
 
 // import HeroArt from "@/components/HeroArt";
 
 export default async function HomePage() {
-  const res = await axios.get<Workout[]>(
-    "https://api.api-store.workers.dev/api/fitlog",
-  );
+  const res = await client.get<Workout[]>("/fitlog");
   const workouts = res.data;
 
   return (

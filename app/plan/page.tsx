@@ -4,10 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Clock, Flame, Star, X } from "lucide-react";
 import { usePlan, PLAN_CAP } from "@/lib/workout-context";
-
 import type { Workout } from "@/lib/workouts";
-import axios from "axios";
-// import WorkoutImage from "@/components/WorkoutImage";
+import client from "@/lib/client";
+import LoadingState from "@/components/Loading";
+import { ErrorState } from "@/components/Error";
 
 type Tab = "plan" | "saved";
 type SortKey = "duration" | "caloriesBurned" | "rating" | "name";
@@ -33,8 +33,8 @@ export default function PlanPage() {
     let cancelled = false;
     setStatus("loading");
 
-    axios
-      .get<Workout[]>("https://api.api-store.workers.dev/api/fitlog")
+    client
+      .get<Workout[]>("/fitlog")
       .then((res) => {
         if (cancelled) return;
         setWorkouts(res.data);
@@ -262,34 +262,6 @@ function EmptyState() {
       >
         Go to workouts
       </Link>
-    </div>
-  );
-}
-
-function LoadingState() {
-  return (
-    <div className="rounded-2xl border border-line/70 px-6 py-24 text-center text-white/40">
-      Loading your plan…
-    </div>
-  );
-}
-
-function ErrorState({ onRetry }: { onRetry: () => void }) {
-  return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-line/70 px-6 py-24 text-center">
-      <h3 className="font-display text-2xl tracking-wide">
-        COULDN&apos;T LOAD YOUR PLAN
-      </h3>
-      <p className="mt-2 max-w-sm text-white/50">
-        The FitLog API didn&apos;t respond. Check your connection and try again.
-      </p>
-      <button
-        type="button"
-        onClick={onRetry}
-        className="focus-ring mt-6 inline-flex items-center rounded-full bg-lime px-6 py-3 text-sm font-semibold text-ink hover:bg-limedim"
-      >
-        Retry
-      </button>
     </div>
   );
 }

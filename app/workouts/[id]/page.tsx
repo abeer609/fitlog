@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import axios from "axios";
 import { Workout } from "@/lib/workouts";
 import WorkoutButtons from "@/components/WorkoutButtons";
+import client from "@/lib/client";
 
 const statRows = (workout: NonNullable<Workout>) => [
   { label: "Equipment", value: workout.equipment },
@@ -18,9 +18,8 @@ export default async function WorkoutDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const p = await params;
-  const url = "https://api.api-store.workers.dev/api/fitlog/" + p.id;
-  const res = await axios.get<Workout>(url);
+  const { id } = await params;
+  const res = await client.get<Workout>(`/fitlog/${id}`);
   const workout = res.data;
   if (!workout) notFound();
 
