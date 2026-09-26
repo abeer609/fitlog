@@ -3,6 +3,7 @@ import { Anton, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { PlanProvider } from "@/lib/workout-context";
 
 const anton = Anton({
   subsets: ["latin"],
@@ -28,9 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${anton.variable} ${inter.variable}`}>
       <body className="min-h-screen bg-ink font-body text-white antialiased">
-        <Header />
-        {children}
-        <Footer />
+        <PlanProvider>
+          <Header />
+          {children}
+          <Footer />
+        </PlanProvider>
       </body>
     </html>
   );
