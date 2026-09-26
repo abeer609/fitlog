@@ -9,7 +9,7 @@ const statRows = (workout: NonNullable<Workout>) => [
   { label: "Sets", value: String(workout.sets) },
   { label: "Reps", value: workout.reps },
   { label: "Duration", value: workout.duration },
-  { label: "Calories", value: `${workout.calories} kcal` },
+  { label: "Calories", value: `${workout.caloriesBurned} kcal` },
   { label: "Rating", value: workout.rating.toFixed(1) },
 ];
 
@@ -19,7 +19,7 @@ export default async function WorkoutDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const p = await params;
-  const url = "https://api.abcz.workers.dev/api/fitlog/" + p.id;
+  const url = "https://api.api-store.workers.dev/api/fitlog/" + p.id;
   const res = await axios.get<Workout>(url);
   const workout = res.data;
   if (!workout) notFound();

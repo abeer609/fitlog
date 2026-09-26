@@ -40,7 +40,7 @@ export default function WorkoutCard({ workout }: { workout: Workout }) {
           </span>
           <span className="flex items-center gap-1.5">
             <Flame className="h-4 w-4" />
-            {workout.calories} kcal
+            {workout.caloriesBurned} kcal
           </span>
           <span className="flex items-center gap-1.5">
             <Star className="h-4 w-4 fill-lime text-lime" />

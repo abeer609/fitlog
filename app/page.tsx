@@ -9,7 +9,7 @@ import { Workout } from "@/lib/workouts";
 
 export default async function HomePage() {
   const res = await axios.get<Workout[]>(
-    "https://api.abcz.workers.dev/api/fitlog",
+    "https://api.api-store.workers.dev/api/fitlog",
   );
   const workouts = res.data;
 

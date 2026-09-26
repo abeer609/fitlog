@@ -7,9 +7,9 @@ export type Workout = {
   difficulty: "Beginner" | "Intermediate" | "Advanced";
   sets: number;
   reps: string;
-  duration: string;
-  durationMin: number;
-  calories: number;
+  // duration: string;
+  duration: number;
+  caloriesBurned: number;
   rating: number;
   description: string;
   instructions: string[];
