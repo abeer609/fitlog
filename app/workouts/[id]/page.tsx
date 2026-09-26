@@ -1,23 +1,7 @@
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
 import axios from "axios";
 import { Workout } from "@/lib/workouts";
-// import { getWorkout, workouts } from "@/lib/workouts";
-// import WorkoutArt from "@/components/WorkoutArt";
-// import WorkoutActions from "@/components/WorkoutActions";
-
-// export function generateStaticParams() {
-//   return workouts.map((w) => ({ slug: w.slug }));
-// }
-
-// export async function generateMetadata({
-//   params,
-// }: {
-//   params: { slug: string };
-// }): Metadata {
-//   //   const workout = getWorkout(params.slug);
-//   //   return { title: workout ? `${workout.name} — FitLog` : "FitLog" };
-// }
+import WorkoutButtons from "@/components/WorkoutButtons";
 
 const statRows = (workout: NonNullable<Workout>) => [
   { label: "Equipment", value: workout.equipment },
@@ -36,7 +20,6 @@ export default async function WorkoutDetailPage({
 }) {
   const p = await params;
   const url = "https://api.abcz.workers.dev/api/fitlog/" + p.id;
-  console.log(url);
   const res = await axios.get<Workout>(url);
   const workout = res.data;
   if (!workout) notFound();
@@ -96,7 +79,7 @@ export default async function WorkoutDetailPage({
           </div>
 
           <div className="mt-8">
-            {/* <WorkoutActions slug={workout.slug} /> */}
+            <WorkoutButtons id={workout.id} />
           </div>
         </div>
       </div>
